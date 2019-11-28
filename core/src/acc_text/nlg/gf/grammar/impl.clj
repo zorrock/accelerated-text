@@ -114,15 +114,15 @@
                                 (-> (cond
                                       (contains? role-map role-key) {:type  :function
                                                                      :value (get role-map role-key)}
-                                      (some? role) {:type  :literal
-                                                    :value (format "{{%s}}" role)}
+                                      (some? role)                  {:type  :literal
+                                                                     :value (format "{{%s}}" role)}
                                       (and (some? function-concept)
-                                           (= pos :VERB)) {:type  :function
-                                                           :value (concept->name function-concept)}
-                                      (some? value) {:type  :literal
-                                                     :value value}
-                                      :else {:type  :literal
-                                             :value "{{...}}"})
+                                           (= pos :VERB))           {:type  :function
+                                                                     :value (concept->name function-concept)}
+                                      (some? value)                 {:type  :literal
+                                                                     :value value}
+                                      :else                         {:type  :literal
+                                                                     :value "{{...}}"})
                                     (attach-selectors attrs)
                                     (assoc :pos pos)))))))
      :ret    [:s "Str"]}))

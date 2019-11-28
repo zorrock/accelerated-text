@@ -11,6 +11,8 @@
 
 (s/def ::syntax (s/keys :req-un [::pos ::role ::type]))
 
+(s/def ::predicate-syntax (s/merge ::syntax (s/keys :opt-un [::predicate])))
+
 (defn predicate [pos]
   (condp = pos
     :AUX "(copula Sg)"
@@ -21,5 +23,15 @@
     (assoc m :predicate pred)
     m))
 
-(defn add-predicates [{body :body}]
-  (map attach-predicate body))
+(s/fdef attach-predicate
+  :args (s/cat :syntax ::syntax)
+  :ret ::predicate-syntax
+  :fn (fn [{{syn :syntax} :args ret :ret}]
+        (and (= (:pos syn) (:pos ret))
+             (= (:function syn) (:function ret))
+             (= (:role syn) (:role ret)))))
+
+(defn add-predicates [{body :body :as grammar}]
+  (assoc grammar :body (map attach-predicate body)))
+
+
