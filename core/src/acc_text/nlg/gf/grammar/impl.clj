@@ -27,6 +27,10 @@
   (let [selectors (->> (keys attrs) (remove #{:pos :role :value}) (select-keys attrs))]
     (cond-> m (seq selectors) (assoc :selectors selectors))))
 
+(defn attach-syntax-attrs [m {:keys [pos role]}]
+  (cond-> (assoc m :pos pos)
+    role (assoc :role role)))
+
 (defmulti build-function (fn [concept _ _ _] (::sg/type concept)))
 
 (defmethod build-function :document-plan [concept children _ _]
@@ -122,7 +126,7 @@
                                       :else {:type  :literal
                                              :value "{{...}}"})
                                     (attach-selectors attrs)
-                                    (assoc :pos pos)))))))
+                                    (attach-syntax-attrs attrs)))))))
      :ret    [:s "Str"]}))
 
 (defmethod build-function :sequence [concept children _ _]
