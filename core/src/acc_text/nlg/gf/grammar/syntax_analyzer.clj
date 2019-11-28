@@ -1,5 +1,6 @@
 (ns acc-text.nlg.gf.grammar.syntax-analyzer
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            [clojure.tools.logging :as log]))
 
 (s/def ::pos #{:VERB :LEX :ADP :NP :AUX})
 
@@ -21,7 +22,8 @@
 
 (defn attach-predicate [{:keys [pos] :as m}]
   (if-let [pred (predicate pos)]
-    (assoc m :predicate pred)
+    (do (log/debugf "Predicate for %s => %s" pos pred)
+        (assoc m :predicate pred))
     m))
 
 (s/fdef attach-predicate
