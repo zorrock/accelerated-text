@@ -1,15 +1,16 @@
 (ns acc-text.nlg.gf.grammar.syntax-analyzer
   (:require [clojure.spec.alpha :as s]))
 
-(s/def ::pos #{:VERB :LEX :ADP :NP})
+(s/def ::pos #{:VERB :LEX :ADP :NP :AUX})
 
-(s/def ::role #{:agent :co-agent})
+(s/def ::role #{"Agent" "co-Agent"})
 
-(s/def ::type #{:literal :function})
+(s/def ::type #{:literal :function :operator})
 
 (s/def ::predicate string?)
+(s/def ::value string?)
 
-(s/def ::syntax (s/keys :req-un [::pos ::role ::type]))
+(s/def ::syntax (s/keys :opt-un [::pos ::role ::type ::value]))
 
 (s/def ::predicate-syntax (s/merge ::syntax (s/keys :opt-un [::predicate])))
 
