@@ -29,7 +29,7 @@
 
 (defn attach-syntax-attrs [m {:keys [pos role]}]
   (cond-> (assoc m :pos pos)
-    role (assoc :role role)))
+    role (assoc :role (-> role str/lower-case keyword))))
 
 (defmulti build-function (fn [concept _ _ _] (::sg/type concept)))
 
@@ -116,8 +116,6 @@
                                                                      :value (get role-map role-key)}
                                       (some? role) {:type  :literal
                                                     :value (format "{{%s}}" role)}
-                                      (= pos :AUX) {:type  :function
-                                                    :value "(copula Sg)"}
                                       (and (some? function-concept)
                                            (= pos :VERB)) {:type  :function
                                                            :value (concept->name function-concept)}
@@ -126,7 +124,7 @@
                                       :else {:type  :literal
                                              :value "{{...}}"})
                                     (attach-selectors attrs)
-                                    (attach-syntax-attrs attrs)))))))
+                                    (assoc :pos pos)))))))
      :ret    [:s "Str"]}))
 
 (defmethod build-function :sequence [concept children _ _]
