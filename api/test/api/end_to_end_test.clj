@@ -205,3 +205,9 @@
     (is (= 200 status))
     (is (some? result-id))
     (is (= #{"Computers book."} (get-variants result-id)))))
+
+(deftest ^:integration past-tense-plan-generation
+  (let [{{result-id :resultId} :body status :status} (generate "past-tense" "books.csv")]
+    (is (= 200 status))
+    (is (some? result-id))
+    (is (= #{"The book was released in 2008." "Released in 2008."} (get-variants result-id)))))

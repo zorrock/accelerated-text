@@ -32,7 +32,7 @@
                syntax))
 
 (defn get-selectors [syntax]
-  (let [selectors (->> syntax (map :body) (apply concat) (map :selectors))
+  (let [selectors (->> syntax (map :body) (flatten) (map :selectors))
         initial-map (zipmap (mapcat keys selectors) (repeat #{}))]
     (apply merge-with conj initial-map selectors)))
 

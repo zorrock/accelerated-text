@@ -202,4 +202,51 @@
                                 :name   "Reference05"
                                 :params ["Variable02"]
                                 :ret    [:s "Str"]}]}
-         (build-grammar "variable" {}))))
+         (build-grammar "variable" {})))
+  (is (= #::grammar{:module   :module
+                    :instance :instance
+                    :flags    {:startcat "DocumentPlan01"}
+                    :syntax   [{:body   [{:type :function :value "Segment02"}]
+                                :name   "DocumentPlan01"
+                                :params ["Segment02"]
+                                :ret    [:s "Str"]}
+                               {:body   [{:type :function :value "Amr03"}]
+                                :name   "Segment02"
+                                :params ["Amr03"]
+                                :ret    [:s "Str"]}
+                               {:body   [[{:pos :NP :type :function :value "Quote05"}
+                                          {:pos       :AUX :type :literal :value "be"
+                                           :selectors {:tense :past}}
+                                          {:pos :VERB :type :function :value "DictionaryItem04"}
+                                          {:pos :ADP :type :literal :value "in"}
+                                          {:pos :NP :type :function :value "Data06"}]
+                                         [{:pos       :VERB :type :function :value "DictionaryItem04"
+                                           :selectors {:tense :past}}
+                                          {:pos :ADP :type :literal :value "in"}
+                                          {:pos :NP :type :function :value "Data06"}]]
+                                :name   "Amr03"
+                                :params ["DictionaryItem04" "Quote05" "Data06"]
+                                :ret    [:s "Str"]}
+                               {:body   [[{:type :literal :value "release"}]]
+                                :name   "DictionaryItem04"
+                                :params []
+                                :ret    [:s "Str"]}
+                               {:body   [{:type :literal :value "The book"}]
+                                :name   "Quote05"
+                                :params []
+                                :ret    [:s "Str"]}
+                               {:body   [{:type :literal :value "{{publishedDate}}"}]
+                                :name   "Data06"
+                                :params []
+                                :ret    [:s "Str"]}]}
+         (build-grammar
+           "past-tense"
+           {:amr        {:release {:frames [{:syntax [{:pos :NP, :role "Object"}
+                                                      {:pos :AUX, :value "be", :tense :past}
+                                                      {:pos :VERB}
+                                                      {:pos :ADP, :value "in"}
+                                                      {:pos :NP, :role "Date"}]}
+                                            {:syntax [{:pos :VERB, :tense :past}
+                                                      {:pos :ADP, :value "in"}
+                                                      {:pos :NP, :role "Date"}]}]}}
+            :dictionary {}}))))

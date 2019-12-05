@@ -1,0 +1,15 @@
+{:type     "Document-plan"
+ :segments [{:children [{:roles          [{:children [{:type "Quote" :srcId "^ARDm-2@x?Sj.HD*P.y]" :text "The book"}]
+                                           :name     "object"}
+                                          {:children [{:name "publishedDate" :type "Cell" :srcId "RA:)_@Pa)apv(P=Ypqh^"}]
+                                           :name     "date"}]
+                         :dictionaryItem {:name   "release"
+                                          :type   "Dictionary-item"
+                                          :srcId  "4f]%O+8v`f~l.qi~`h.2"
+                                          :itemId "release"}
+                         :type           "AMR"
+                         :srcId          "5pTPQ8pltrV[IUPJ*^J~"
+                         :conceptId      "release"}]
+             :type     "Segment"
+             :srcId    "z2F-6NDGrz0]=*;$D3qX"}]
+ :srcId    "?Jq3U^L9r@!bb||xzm6G"}

@@ -81,8 +81,6 @@
                                                         :value (get role-map role-key)}
                          (some? role) {:type  :literal
                                        :value (format "{{%s}}" role)}
-                         (= pos :AUX) {:type  :function
-                                       :value "(copula Sg)"}
                          (and (some? function-concept)
                               (= pos :VERB)) {:type  :function
                                               :value (concept->name function-concept)}
@@ -91,7 +89,7 @@
                          :else {:type  :literal
                                 :value "{{...}}"})
                        (attach-selectors attrs)
-                       (assoc :pos pos)))))
+                       (cond-> (some? pos) (assoc :pos pos))))))
      :ret    [:s "Str"]}))
 
 (defmethod build-function :shuffle [concept children _ _]
