@@ -14,9 +14,10 @@
           (when (= role (:role relation)) concept))
         (zipmap relations concepts)))
 
-(defn attach-selectors [m attrs]
-  (let [selectors (->> (keys attrs) (remove #{:pos :role :value}) (select-keys attrs))]
-    (cond-> m (seq selectors) (assoc :selectors selectors))))
+(defn attach-selectors [m {selector :selector determines :determines}]
+  (cond-> m
+          (some? selector) (assoc :selector selector)
+          (some? determines) (assoc :determines determines)))
 
 (defmulti build-function (fn [concept _ _ _] (:type concept)))
 
@@ -81,15 +82,10 @@
                    (-> (cond
                          (contains? role-map role-key) {:type  :function
                                                         :value (get role-map role-key)}
-                         (some? role) {:type  :literal
-                                       :value (format "{{%s}}" role)}
                          (and (some? function-concept)
-                              (= pos :VERB)) {:type  :function
-                                              :value (concept->name function-concept)}
-                         (some? value) {:type  :literal
-                                        :value value}
-                         :else {:type  :literal
-                                :value "{{...}}"})
+                              (re-matches #"(?i)function" role)) {:type  :function
+                                                                  :value (concept->name function-concept)}
+                         :else {:type :placeholder})
                        (attach-selectors attrs)
                        (cond-> (some? pos) (assoc :pos pos))))))
      :ret    [:s "Str"]}))

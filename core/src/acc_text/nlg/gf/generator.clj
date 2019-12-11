@@ -60,7 +60,8 @@
     (let [{:keys [type value]} expr]
       (case type
         :literal (format "\"%s\"" (escape-string value))
-        :function (format "%s.s" value)))))
+        :function (format "%s.s" value)
+        :placeholder "\"\""))))
 
 (defn get-operator [expr next-expr]
   (when (some? next-expr)

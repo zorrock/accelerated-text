@@ -13,9 +13,11 @@
                                 {:examples [example]
                                  :syntax   (for [instance syntax]
                                              (reduce-kv (fn [m k v]
-                                                          (assoc m k (cond-> v
-                                                                             (not (contains? #{:value :role} k))
-                                                                             (keyword))))
+                                                          (assoc m k (if-not (map? v)
+                                                                       (cond-> v
+                                                                               (not (contains? #{:value :role :selector} k))
+                                                                               (keyword))
+                                                                       (into {} v))))
                                                         {}
                                                         (into {} instance)))})
                               frames)}))
