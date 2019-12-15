@@ -13,9 +13,11 @@
                                 {:examples [example]
                                  :syntax   (for [instance syntax]
                                              (reduce-kv (fn [m k v]
-                                                          (assoc m k (cond-> v
-                                                                             (not (contains? #{:value :role} k))
-                                                                             (keyword))))
+                                                          (assoc m k (if-not (map? v)
+                                                                       (cond-> v
+                                                                               (not (contains? #{:value :role :selector} k))
+                                                                               (keyword))
+                                                                       (into {} v))))
                                                         {}
                                                         (into {} instance)))})
                               frames)}))
@@ -24,9 +26,8 @@
   (let [abs-path (.getParent (io/file package))]
     (->> package
          (utils/read-yaml)
-         :includes
-         (map (fn [p] (string/join "/" [abs-path p])))
-         (map io/file))))
+         (:includes)
+         (map (fn [p] (io/file (string/join "/" [abs-path p])))))))
 
 (defn list-amr-files []
   (list-package (or (System/getenv "GRAMMAR_PACKAGE") "../grammar/all.yaml")))
@@ -35,8 +36,7 @@
   (when-let [f (some #(when (= (name id) (utils/get-name %)) %) (list-amr-files))]
     (read-amr f)))
 
-(defn load-all []
-  (map read-amr (list-amr-files)))
+(defn load-all [] (map read-amr (list-amr-files)))
 
 (defn initialize []
   (doseq [f (list-amr-files)]

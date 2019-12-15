@@ -1,20 +1,20 @@
-#:acc-text.nlg.semantic-graph{:relations [#:acc-text.nlg.semantic-graph{:from :01 :to :02 :role :segment}
-                                          #:acc-text.nlg.semantic-graph{:from :02 :to :03 :role :instance}
-                                          #:acc-text.nlg.semantic-graph{:from :03 :to :04 :role :function}
-                                          #:acc-text.nlg.semantic-graph{:from       :03
-                                                                        :to         :05
-                                                                        :role       :ARG0
-                                                                        :attributes #:acc-text.nlg.semantic-graph{:name "object"}}
-                                          #:acc-text.nlg.semantic-graph{:from       :03
-                                                                        :to         :06
-                                                                        :role       :ARG1
-                                                                        :attributes #:acc-text.nlg.semantic-graph{:name "date"}}]
-                              :concepts  [#:acc-text.nlg.semantic-graph{:id :01 :type :document-plan}
-                                          #:acc-text.nlg.semantic-graph{:id :02 :type :segment}
-                                          #:acc-text.nlg.semantic-graph{:id :03 :type :amr :value "release"}
-                                          #:acc-text.nlg.semantic-graph{:id         :04
-                                                                        :type       :dictionary-item
-                                                                        :value      "release"
-                                                                        :attributes #:acc-text.nlg.semantic-graph{:name "release"}}
-                                          #:acc-text.nlg.semantic-graph{:id :05 :type :quote :value "The book"}
-                                          #:acc-text.nlg.semantic-graph{:id :06 :type :data :value "publishedDate"}]}
+#:acc-text.nlg.semantic-graph{:relations [{:from :01 :to :02 :role :segment}
+                                          {:from :02 :to :03 :role :instance}
+                                          {:from :03 :to :04 :role :function}
+                                          {:from       :03
+                                           :to         :05
+                                           :role       :ARG0
+                                           :attributes {:name "object"}}
+                                          {:from       :03
+                                           :to         :06
+                                           :role       :ARG1
+                                           :attributes {:name "date"}}]
+                              :concepts  [{:id :01 :type :document-plan}
+                                          {:id :02 :type :segment}
+                                          {:id :03 :type :amr :value "release"}
+                                          {:id         :04
+                                           :type       :dictionary-item
+                                           :value      "release"
+                                           :attributes {:name "release"}}
+                                          {:id :05 :type :quote :value "The book"}
+                                          {:id :06 :type :data :value "publishedDate"}]}
