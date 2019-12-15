@@ -1,33 +1,16 @@
 roles:
-  - NOUN1
-  - VERB
-  - PREP
-  - ADJ
-  - NOUN2
-  - PUNCT
+  - agent
+  - patient
 frames:
-  - example: The Book is intended for mature audiences.
+  - example: Book is intended for mature audiences
     syntax:
-      - role: NOUN1
-        determines:
-          function: [number]
-      - role: function
-      - role: VERB
-        tense: past
-      - role: PREP
-      - role: ADJ
-      - role: NOUN2
-      - role: PUNCT
-  - example: Is the book intended for mature audiences?
-    syntax:
-      - role: function
-      - role: NOUN1
-        determines:
-          function: [number]
-      - role: VERB
-        tense: past
-      - role: PREP
-      - role: ADJ
-      - role: NOUN2
-      - role: PUNCT
-        selector: "?"
+      - pos: NP
+        role: agent
+      - pos: AUX
+        value: is
+      - pos: VERB
+      - pos: LEX
+        value: for
+      - pos: LEX
+        role: patient
+        value: mature audiences
