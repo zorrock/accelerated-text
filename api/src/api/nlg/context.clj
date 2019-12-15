@@ -1,8 +1,8 @@
 (ns api.nlg.context
   (:require [acc-text.nlg.semantic-graph :as sg]
             [api.nlg.dictionary :as dictionary]
-            [clojure.string :as str]
-            [data.entities.amr :as amr]))
+            [data.entities.amr :as amr-entiry]
+            [data.entities.dictionary :as dict-entity]))
 
 (defn get-reader-profiles [reader-model]
   (or
@@ -23,23 +23,29 @@
 (defn build-dictionary-context [semantic-graph reader-profiles]
   (reduce (fn [m value]
             (assoc m value (->> reader-profiles
-                                (mapcat #(dictionary/search (str/lower-case value) %))
+                                (mapcat #(dictionary/search value %))
                                 (into #{})
                                 (sort)
                                 (vec))))
           {}
           (get-values semantic-graph :dictionary-item)))
 
-(defn build-amr-context [semantic-graph]
-  (reduce (fn [m amr-id]
-            (assoc m (keyword amr-id) (amr/load-single amr-id)))
-          {}
-          (get-values semantic-graph :amr)))
+(defn remove-amr-examples [m]
+  (reduce-kv (fn [m k v]
+               (assoc m k (update
+                            v
+                            :acc-text.nlg.amr/frames
+                            #(map (fn [m] (dissoc m :examples)) %))))
+             {}
+             m))
 
 (defn build-context
   ([semantic-graph]
    (build-context semantic-graph {:default true}))
   ([semantic-graph reader-model]
-   (let [reader-profiles (get-reader-profiles reader-model)]
-     {:dictionary (build-dictionary-context semantic-graph reader-profiles)
-      :amr        (build-amr-context semantic-graph)})))
+   (let [_ (get-reader-profiles reader-model)]
+     {:dictionary (dict-entity/load-dictionary)
+      :amr        (remove-amr-examples
+                    (select-keys
+                      (amr-entiry/load-all)
+                      (get-values semantic-graph :amr)))})))
