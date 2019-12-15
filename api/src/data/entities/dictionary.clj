@@ -1,9 +1,13 @@
 (ns data.entities.dictionary
-  (:require [api.config :refer [conf]]
+  (:require [acc-text.nlg.dictionary :as dict]
+            [api.config :refer [conf]]
+            [clojure.java.io :as io]
             [clojure.string :as str]
             [data.db :as db]
             [data.utils :as utils]
-            [mount.core :refer [defstate]]))
+            [mount.core :refer [defstate]]
+            [clojure.tools.logging :as log])
+  (:import (java.io File)))
 
 (defstate reader-flags-db :start (db/db-access :reader-flag conf))
 (defstate dictionary-combined-db :start (db/db-access :dictionary-combined conf))
@@ -45,3 +49,50 @@
 
 (defn update-dictionary-item [item]
   (db/update! dictionary-combined-db (:key item) (dissoc item :key)))
+
+(defn list-dictionary-files []
+  (filter (comp
+            #(re-find #"\.edn$" %)
+            #(.getAbsolutePath ^File %))
+          (-> (System/getenv "DICT_PATH")
+              (or (io/resource "dictionary"))
+              (io/file)
+              (file-seq))))
+
+(defn load-dictionary []
+  (transduce (map utils/read-edn) merge (list-dictionary-files)))
+
+(defn load-dictionary-entries [keys]
+  (->> (load-dictionary)
+       (mapcat (fn [[category {entries :entries :as body}]]
+                 (for [[parent-key {forms :forms :as parent-entry}] entries]
+                   {category (assoc
+                               body
+                               :entries (cond-> (reduce-kv (fn [m key form]
+                                                             (cond-> m
+                                                                     (contains?
+                                                                       (set keys)
+                                                                       (dict/gen-id category parent-key key))
+                                                                     (assoc
+                                                                       (dict/gen-id parent-key key)
+                                                                       (-> parent-entry
+                                                                           (dissoc :forms)
+                                                                           (merge form)
+                                                                           (assoc :value key)))))
+                                                           {}
+                                                           forms)
+                                                (contains?
+                                                  (set keys)
+                                                  (dict/gen-id category parent-key))
+                                                (assoc
+                                                  parent-key
+                                                  (assoc parent-entry :value parent-key))))})))
+       (apply (partial merge-with merge))))
+
+(defn initialize []
+  (doseq [[key {:keys [pos value forms]}] (dict/flatten-dictionary (load-dictionary))]
+    (create-dictionary-item
+      {:key          key
+       :partOfSpeech (name pos)
+       :name         value
+       :phrases      (into [] (keys forms))})))

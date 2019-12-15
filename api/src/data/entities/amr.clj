@@ -1,49 +1,56 @@
 (ns data.entities.amr
-  (:require [clojure.java.io :as io]
-            [clojure.string :as string]
-            [data.utils :as utils]
-            [data.entities.dictionary :as dictionary]))
+  (:require [acc-text.nlg.dictionary :as dict]
+            [clojure.java.io :as io]
+            [data.entities.dictionary :as dict-entity]
+            [data.utils :as utils])
+  (:import (java.io File)))
 
-(defn read-amr [f]
-  (let [{:keys [roles frames]} (utils/read-yaml f)]
+(defn read-amr [^File f]
+  (let [{:acc-text.nlg.amr/keys [event frames]} (utils/read-edn f)]
     {:id                 (utils/get-name f)
-     :dictionary-item-id (utils/get-name f)
-     :thematic-roles     (map (fn [role] {:type role}) roles)
-     :frames             (map (fn [{:keys [syntax example]}]
-                                {:examples [example]
-                                 :syntax   (for [instance syntax]
-                                             (reduce-kv (fn [m k v]
-                                                          (assoc m k (if-not (map? v)
-                                                                       (cond-> v
-                                                                               (not (contains? #{:value :role :selector} k))
-                                                                               (keyword))
-                                                                       (into {} v))))
-                                                        {}
-                                                        (into {} instance)))})
-                              frames)}))
-
-(defn list-package [package]
-  (let [abs-path (.getParent (io/file package))]
-    (->> package
-         (utils/read-yaml)
-         (:includes)
-         (map (fn [p] (io/file (string/join "/" [abs-path p])))))))
+     :dictionary-item-id (apply dict/gen-id event)
+     :thematic-roles     (transduce
+                           (comp
+                             (mapcat :syntax)
+                             (map :role)
+                             (remove (partial = :verb))
+                             (map name)
+                             (map (partial hash-map :type))
+                             (distinct))
+                           conj
+                           frames)
+     :frames             frames}))
 
 (defn list-amr-files []
-  (list-package (or (System/getenv "GRAMMAR_PACKAGE") "../grammar/all.yaml")))
+  (filter (comp
+            #(re-find #"\.edn$" %)
+            #(.getAbsolutePath ^File %))
+          (-> (System/getenv "AMR_PATH")
+              (or (io/resource "amr"))
+              (io/file)
+              (file-seq))))
 
 (defn load-single [id]
   (when-let [f (some #(when (= (name id) (utils/get-name %)) %) (list-amr-files))]
+    (utils/read-edn f)))
+
+(defn load-all []
+  (apply merge (map (fn [f]
+                      {(utils/get-name f) (utils/read-edn f)})
+                    (list-amr-files))))
+
+(defn read-single [id]
+  (when-let [f (some #(when (= (name id) (utils/get-name %)) %) (list-amr-files))]
     (read-amr f)))
 
-(defn load-all [] (map read-amr (list-amr-files)))
+(defn read-all [] (map read-amr (list-amr-files)))
 
 (defn initialize []
-  (doseq [f (list-amr-files)]
-    (let [{:keys [members]} (utils/read-yaml f)
-          amr-key (utils/get-name f)]
-      (when-not (dictionary/get-dictionary-item amr-key)
-        (dictionary/create-dictionary-item
-          {:key     amr-key
-           :name    amr-key
-           :phrases members})))))
+  (doseq [{:acc-text.nlg.amr/keys [event]} (map utils/read-edn (list-amr-files))]
+    (let [dictionary-item-id (apply dict/gen-id event)]
+      (when-not (dict-entity/get-dictionary-item dictionary-item-id)
+        (dict-entity/create-dictionary-item
+          {:key          dictionary-item-id
+           :partOfSpeech (first event)
+           :name         (second event)
+           :phrases      []})))))
