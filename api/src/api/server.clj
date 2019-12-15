@@ -20,7 +20,8 @@
             [reitit.ring.middleware.exception :as exception]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.dev.pretty :as pretty]
-            [data.entities.amr :as amr]))
+            [data.entities.amr :as amr]
+            [data.entities.dictionary :as dictionary]))
 
 (def headers {"Access-Control-Allow-Origin"  "*"
               "Access-Control-Allow-Headers" "content-type, *"
@@ -113,6 +114,7 @@
   (let [host (get conf :host "0.0.0.0")
         port (get conf :port 3001)]
     (log/infof "Running server on: localhost:%s. Press Ctrl+C to stop" port)
+    (dictionary/initialize)
     (amr/initialize)
     (server/run-server
       #'app {:port     port
