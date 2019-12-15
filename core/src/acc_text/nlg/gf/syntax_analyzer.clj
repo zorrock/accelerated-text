@@ -1,15 +1,14 @@
 (ns acc-text.nlg.gf.syntax-analyzer
   (:require [acc-text.nlg.gf.grammar :as grammar]
             [clojure.spec.alpha :as s]
-            [clojure.string :as str]
-            [clojure.tools.logging :as log]))
+            [clojure.string :as str]))
 
 (defmulti transform-expression :pos)
 
 (defmethod transform-expression :default [expr] expr)
 
 (defmethod transform-expression :AUX [{{:keys [tense number]} :selectors} data]
-  {:type   :function
+  {:type   :verb
    :params []
    :value  (->> (-> ["copula"]
                     (cond-> (some? number) (cond (case number
