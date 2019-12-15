@@ -25,7 +25,7 @@ export default Block({
             type:           'field_label',
             name:           'conceptLabel',
         }],
-        message1:           'lexicon %1',
+        message1:           'verb %1',
         args1: [{
             type:           'input_value',
             name:           'dictionaryItem',
