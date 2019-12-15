@@ -1,0 +1,10 @@
+#:acc-text.nlg.dictionary{:AUX {:entries {"to be" {:pos   :aux
+                                                   :tense :infinitive
+                                                   :forms {"is"   {:tense  :present
+                                                                   :number :singular}
+                                                           "are"  {:tense  :present
+                                                                   :number :plural}
+                                                           "was"  {:tense  :past
+                                                                   :number :singular}
+                                                           "were" {:tense  :past
+                                                                   :number :plural}}}}}}

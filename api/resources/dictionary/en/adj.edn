@@ -1,0 +1,3 @@
+#:acc-text.nlg.dictionary{:ADJ {:entries {"mature" {:pos   :adj
+                                                    :forms {"maturer"  {:type :comparative}
+                                                            "maturest" {:type :superlative}}}}}}

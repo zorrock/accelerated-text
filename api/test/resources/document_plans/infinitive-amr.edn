@@ -1,0 +1,35 @@
+{:type     "Document-plan"
+ :segments [{:children [{:roles          [{:children [{:name   "book"
+                                                       :type   "Dictionary-item"
+                                                       :srcId  "wWq;-Kh.wbbUtojE8pnY"
+                                                       :itemId "NOUN/book"}]
+                                           :name     "subject"}
+                                          {:children [{:name   "for"
+                                                       :type   "Dictionary-item"
+                                                       :srcId  "5jP8B}+T)!J|LL:d8Zd["
+                                                       :itemId "PREP/for"}]
+                                           :name     "prep"}
+                                          {:children [{:name   "mature"
+                                                       :type   "Dictionary-item-modifier"
+                                                       :srcId  "@T`*)Gd1/$uAH`TFj5b4"
+                                                       :child  {:name   "audiences"
+                                                                :type   "Dictionary-item"
+                                                                :srcId  ".!8c?GDdI=rAO2_tzs^}"
+                                                                :itemId "NOUN/audience/audiences"}
+                                                       :itemId "ADJ/mature"}]
+                                           :name     "object"}
+                                          {:children [{:name   "?"
+                                                       :type   "Dictionary-item"
+                                                       :srcId  "E1v5Pr)3R@wlb]S7cGYt"
+                                                       :itemId "PUNCT/?"}]
+                                           :name     "punct"}]
+                         :dictionaryItem {:name   "intended"
+                                          :type   "Dictionary-item"
+                                          :srcId  "}EE*o76e}W1k0HTk9]k2"
+                                          :itemId "VERB/intended"}
+                         :type           "AMR"
+                         :srcId          "}+Dbx785U0Z7gv7gDE*"
+                         :conceptId      "subj-verb-prep-obj"}]
+             :type     "Segment"
+             :srcId    "%z/P=0;^ie`b(bxXCuG("}]
+ :srcId    "6Q65LBgdI))d0#pd}ua6"}

@@ -1,0 +1,16 @@
+#:acc-text.nlg.dictionary{:PUNCT {:entries {"." {:pos  :punct
+                                                 :kind :stop}
+                                            "?" {:pos  :punct
+                                                 :kind :stop
+                                                 :type :question}
+                                            "!" {:pos  :punct
+                                                 :kind :stop
+                                                 :type :exclamation}
+                                            "," {:pos  :punct
+                                                 :kind :pause}
+                                            ";" {:pos  :punct
+                                                 :kind :pause}
+                                            ":" {:pos  :punct
+                                                 :kind :pause}
+                                            "–" {:pos  :punct
+                                                 :kind :pause}}}}

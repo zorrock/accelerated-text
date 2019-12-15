@@ -1,0 +1,27 @@
+#:acc-text.nlg.dictionary{:VERB {:relations {:AUX #{"to be"} :MODAL #{"will"}}
+                                 :entries   {"intended" {:pos   :verb
+                                                         :forms {"intend"      {:tense #{:present}}
+                                                                 "intends"     {:tense  #{:present}
+                                                                                :number #{:singular}
+                                                                                :person #{:third}}
+                                                                 "intended"    {:tense #{:past}}
+                                                                 "intending"   {:tense  #{:present-participle}
+                                                                                :number #{:plural}}
+                                                                 "be intended" {:tense #{:future}}}}
+                                             "write"    {:pos   :verb
+                                                         :forms {"write"      {:tense #{:present}}
+                                                                 "writes"     {:tense  #{:present}
+                                                                               :number #{:singular}
+                                                                               :person #{:third}}
+                                                                 "written"    {:tense #{:past}}
+                                                                 "writing"    {:tense  #{:present-participle}
+                                                                               :number #{:plural}}
+                                                                 "be written" {:tense #{:future}}}}
+                                             "cut"      {:pos   :verb
+                                                         :forms {"cut"     {:tense #{:present :past}}
+                                                                 "cuts"    {:tense  #{:present}
+                                                                            :number #{:singular}
+                                                                            :person #{:third}}
+                                                                 "cutting" {:tense  #{:present-participle}
+                                                                            :number #{:plural}}
+                                                                 "be cut"  {:tense #{:future}}}}}}}

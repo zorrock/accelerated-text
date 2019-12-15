@@ -1,0 +1,7 @@
+#:acc-text.nlg.dictionary{:NOUN {:relations {:DET #{"the"}}
+                                 :entries   {"audience" {:pos    :noun
+                                                         :number :singular
+                                                         :forms  {"audiences" {:number :plural}}}
+                                             "book"     {:pos    :noun
+                                                         :number :singular
+                                                         :forms  {"books" {:number :plural}}}}}}

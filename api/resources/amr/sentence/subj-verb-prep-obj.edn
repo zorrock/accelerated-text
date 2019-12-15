@@ -1,0 +1,119 @@
+#:acc-text.nlg.amr{:frames [{:examples ["The book is intended for mature audiences."]
+                             :syntax   [{:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}
+                                         :determines {:verb #{:number}}}
+                                        {:role       :verb
+                                         :implicit   :AUX
+                                         :determines {:subject #{:number}}
+                                         :variations {:number #{:singular :plural}
+                                                      :tense  #{:present :past}}}
+                                        {:role       :verb
+                                         :variations {:tense #{:past}}
+                                         :kind       {:pos #{:verb}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct}]}
+                            {:examples ["The book will will be intended for mature audiences."]
+                             :syntax   [{:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}}
+                                        {:role     :verb
+                                         :implicit :MODAL}
+                                        {:role       :verb
+                                         :variations {:tense #{:future}}
+                                         :kind       {:pos #{:verb}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct}]}
+                            {:examples ["Is the book intended for mature audiences?"]
+                             :syntax   [{:role       :verb
+                                         :implicit   :AUX
+                                         :determines {:subject #{:number}}
+                                         :variations {:number #{:singular :plural}
+                                                      :tense  #{:present :past}}}
+                                        {:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}
+                                         :determines {:verb #{:number}}}
+                                        {:role       :verb
+                                         :variations {:tense #{:past}}
+                                         :kind       {:pos #{:verb}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct
+                                         :kind {:type #{:question}}}]}
+                            {:examples ["Will the book be intended for mature audiences?"]
+                             :syntax   [{:role     :verb
+                                         :implicit :MODAL}
+                                        {:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}
+                                         :determines {:verb #{:number}}}
+                                        {:role       :verb
+                                         :variations {:tense #{:future}}
+                                         :kind       {:pos #{:verb}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct
+                                         :kind {:type #{:question}}}]}
+                            {:examples ["The book is for mature audiences."]
+                             :syntax   [{:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}
+                                         :determines {:verb #{:number}}}
+                                        {:role       :verb
+                                         :determines {:subject #{:number}}
+                                         :variations {:number #{:singular :plural}
+                                                      :tense  #{:present :past}}
+                                         :kind       {:pos #{:aux}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct}]}
+                            {:examples ["The book will be for mature audiences."]
+                             :syntax   [{:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}}
+                                        {:role     :verb
+                                         :implicit :MODAL}
+                                        {:role       :verb
+                                         :variations {:tense #{:future}}
+                                         :kind       {:pos #{:aux}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct}]}
+                            {:examples ["Is the book for mature audiences?"]
+                             :syntax   [{:role       :verb
+                                         :determines {:subject #{:number}}
+                                         :variations {:number #{:singular :plural}
+                                                      :tense  #{:present :past}}
+                                         :kind       {:pos #{:aux}}}
+                                        {:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}
+                                         :determines {:verb #{:number}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct
+                                         :kind {:type #{:question}}}]}
+                            {:examples ["Will the book be for mature audiences?"]
+                             :syntax   [{:role     :verb
+                                         :implicit :MODAL}
+                                        {:role     :subject
+                                         :implicit :DET}
+                                        {:role       :subject
+                                         :variations {:number #{:singular :plural}}}
+                                        {:role       :verb
+                                         :variations {:tense #{:future}}
+                                         :kind       {:pos #{:aux}}}
+                                        {:role :prep}
+                                        {:role :object}
+                                        {:role :punct
+                                         :kind {:type #{:question}}}]}]}
